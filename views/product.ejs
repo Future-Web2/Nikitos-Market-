@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= product.name %> - ShopMarket
+    </title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <%- include('partials/header') %>
+
+        <main class="container main-content">
+            <div class="product-detail-container">
+                <div class="product-detail-image">
+                    <img src="<%= product.image %>" alt="<%= product.name %>">
+                </div>
+
+                <div class="product-detail-info">
+                    <h1>
+                        <%= product.name %>
+                    </h1>
+                    <div class="detail-price">
+                        <%= product.price.toLocaleString('ru-RU') %> руб.
+                    </div>
+                    <p class="detail-seller">Продавец: <%= product.user %>
+                    </p>
+
+                    <div class="detail-description">
+                        <h3>Описание</h3>
+                        <p>
+                            <%= product.description %>
+                        </p>
+                    </div>
+
+                    <div class="detail-actions">
+                        <form action="/cart/add/<%= product.id %>" method="POST" style="display: inline;">
+                            <button type="submit" class="btn-primary">Добавить в корзину</button>
+                        </form>
+                        <button class="btn-secondary"
+                            onclick="alert('Функция отправки сообщений недоступна в демо-режиме.');">Написать
+                            продавцу</button>
+                    </div>
+                </div>
+            </div>
+
+            <section class="comments-section">
+                <h2>Отзывы и Вопросы (<%= product.comments.length %>)</h2>
+
+                <!-- Форма добавления комментария -->
+                <div class="add-comment-form">
+                    <h3>Оставить отзыв</h3>
+                    <form action="/product/<%= product.id %>/add-comment" method="POST">
+                        <textarea name="comment" rows="4" placeholder="Ваш отзыв..." required></textarea>
+                        <button type="submit">Отправить</button>
+                    </form>
+                </div>
+
+                <!-- Список комментариев -->
+                <div class="comments-list">
+                    <% product.comments.forEach(function(comment) { %>
+                        <div class="comment-item">
+                            <div class="comment-header">
+                                <span class="comment-user">
+                                    <%= comment.user %>
+                                </span>
+                                <span class="comment-date">
+                                    <%= comment.date %>
+                                </span>
+                            </div>
+                            <div class="comment-body">
+                                <!-- УЯЗВИМОСТЬ: Stored XSS - выводим текст комментария без экранирования! -->
+                                <p><%- comment.text %></p>
+                            </div>
+                        </div>
+                        <% }); %>
+                </div>
+            </section>
+        </main>
+
+        <%- include('partials/footer') %>
+
+            <style>
+                /* Дополнительные стили для этой страницы */
+                .product-detail-container {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: 2rem;
+                    margin-bottom: 3rem;
+                }
+
+                .product-detail-image img {
+                    width: 100%;
+                    border-radius: 8px;
+                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                }
+
+                .detail-price {
+                    font-size: 2rem;
+                    color: var(--price-color);
+                    font-weight: bold;
+                    margin: 1rem 0;
+                }
+
+                .detail-description {
+                    margin: 1.5rem 0;
+                    line-height: 1.8;
+                    color: #555;
+                }
+
+                .btn-primary,
+                .btn-secondary {
+                    padding: 10px 20px;
+                    border: none;
+                    border-radius: 4px;
+                    cursor: pointer;
+                    font-size: 1rem;
+                    margin-right: 10px;
+                }
+
+                .btn-primary {
+                    background-color: var(--price-color);
+                    color: white;
+                }
+
+                .btn-secondary {
+                    background-color: var(--secondary-color);
+                    color: white;
+                }
+
+                .comments-section {
+                    background: #fff;
+                    padding: 2rem;
+                    border-radius: 8px;
+                    border: 1px solid var(--border-color);
+                }
+
+                .add-comment-form {
+                    margin-bottom: 2rem;
+                    background: #f9f9f9;
+                    padding: 1.5rem;
+                    border-radius: 8px;
+                }
+
+                .add-comment-form textarea {
+                    width: 100%;
+                    padding: 10px;
+                    border: 1px solid #ccc;
+                    border-radius: 4px;
+                    margin-bottom: 10px;
+                    font-family: inherit;
+                }
+
+                .comment-item {
+                    border-bottom: 1px solid #eee;
+                    padding: 1rem 0;
+                }
+
+                .comment-header {
+                    display: flex;
+                    justify-content: space-between;
+                    margin-bottom: 0.5rem;
+                    font-size: 0.9rem;
+                    color: #777;
+                }
+
+                .comment-user {
+                    font-weight: bold;
+                    color: #333;
+                }
+            </style>
+</body>
+
+</html>

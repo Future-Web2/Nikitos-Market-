@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopMarket - Каталог</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <%- include('partials/header') %>
+
+        <main class="container main-content">
+            <% if (query) { %>
+                <div class="results-header animate-fade-in" style="margin-bottom: 3rem; text-align: center;">
+                    <!-- УЯЗВИМОСТЬ: XSS -->
+                    <h2 style="font-size: 2.5rem; margin-bottom: 0.5rem;">Результаты для: <span class="query-display"
+                            style="color: var(--accent-color); text-decoration: underline;"><%- query %></span></h2>
+                    <p style="color: var(--secondary-color); font-size: 1.1rem;">Мы нашли для вас <%= products.length %>
+                            товаров</p>
+                </div>
+                <% } else { %>
+                    <div class="catalog-banner animate-fade-in"
+                        style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: white; padding: 4rem 2rem; border-radius: 24px; margin-bottom: 3rem; text-align: center; position: relative; overflow: hidden;">
+                        <div class="blob blob-1"
+                            style="width: 200px; height: 200px; top: -50px; left: -50px; opacity: 0.4;"></div>
+                        <div class="blob blob-2"
+                            style="width: 150px; height: 150px; bottom: -30px; right: -30px; opacity: 0.4;"></div>
+                        <div style="position: relative; z-index: 10;">
+                            <h2 style="font-size: 3rem; color: white; margin-bottom: 1rem;">Каталог Эксклюзивов</h2>
+                            <p style="font-size: 1.2rem; color: #cbd5e1; max-width: 600px; margin: 0 auto;">От винтажной
+                                классики до передовых гаджетов. Найдите то, что вдохновляет.</p>
+                        </div>
+                    </div>
+                    <% } %>
+
+                        <div class="product-grid">
+                            <% products.forEach(function(product) { %>
+                                <div class="product-card">
+                                    <a href="/product/<%= product.id %>" style="text-decoration: none; color: inherit;">
+                                        <img src="<%= product.image %>" alt="<%= product.name %>" class="product-image"
+                                            onerror="this.src='https://via.placeholder.com/250x200?text=No+Image';">
+                                        <div class="product-info">
+                                            <h3 class="product-title">
+                                                <%= product.name %>
+                                            </h3>
+                                            <div class="product-price">
+                                                <%= product.price.toLocaleString('ru-RU') %> руб.
+                                            </div>
+                                            <div class="product-meta">
+                                                <span>Продавец: <%= product.user %></span>
+                                            </div>
+                                            <div class="product-comment">
+                                                "<%= (product.comments && product.comments.length> 0) ?
+                                                    product.comments[0].text : 'Нет отзывов' %>"
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <% }); %>
+                        </div>
+
+                        <% if (products.length===0) { %>
+                            <p>Извините, по вашему запросу ничего не найдено.</p>
+                            <% } %>
+        </main>
+
+        <%- include('partials/footer') %>
+</body>
+
+</html>

@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nikita Market - Маркетплейс нового поколения</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- Animation Library (Optional but keeping it custom css based for speed) -->
+    <style>
+        .hero {
+            background-color: #0f172a;
+            position: relative;
+            height: 700px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            border-radius: 30px;
+            margin-bottom: 6rem;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            perspective: 1000px;
+        }
+
+        /* Dynamic Background Blobs */
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: 1;
+            opacity: 0.6;
+            animation: float 10s infinite ease-in-out;
+        }
+
+        .blob-1 {
+            width: 400px;
+            height: 400px;
+            background: #3b82f6;
+            top: -100px;
+            left: -100px;
+            animation-delay: 0s;
+        }
+
+        .blob-2 {
+            width: 300px;
+            height: 300px;
+            background: #ef4444;
+            bottom: -50px;
+            right: -50px;
+            animation-delay: 2s;
+            animation-duration: 8s;
+        }
+
+        .blob-3 {
+            width: 200px;
+            height: 200px;
+            background: #8b5cf6;
+            top: 40%;
+            left: 60%;
+            animation-delay: 4s;
+            animation-duration: 12s;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            max-width: 900px;
+            padding: 0 2rem;
+            animation: slideUp 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .hero-content h1 {
+            font-size: 5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.1;
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3));
+        }
+
+        .hero-content p {
+            font-size: 1.5rem;
+            margin-bottom: 3rem;
+            color: #cbd5e1;
+            font-weight: 300;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 0.9rem;
+            color: #93c5fd;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+            margin-bottom: 8rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 3rem;
+            border-radius: 24px;
+            box-shadow: var(--shadow-md);
+            text-align: left;
+            border: 1px solid white;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--accent-color), #8b5cf6);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: #3b82f6;
+            box-shadow: inset 0 2px 4px 0 rgba(255, 255, 255, 0.8);
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .feature-card:hover .feature-icon {
+            transform: rotate(10deg) scale(1.1);
+        }
+
+        .cta-btn {
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .cta-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .cta-btn:hover::before {
+            left: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <%- include('partials/header') %>
+
+        <main class="container main-content">
+            <section class="hero">
+                <div class="blob blob-1"></div>
+                <div class="blob blob-2"></div>
+                <div class="blob blob-3"></div>
+
+                <div class="hero-content">
+                    <div class="hero-badge">Web 3.0 Marketplace</div>
+                    <h1>Шопинг<br>Без Границ</h1>
+                    <p>Откройте для себя Nikita Market — платформу, где технологии встречаются с эстетикой. Безопасно.
+                        Быстро. Будущее.</p>
+                    <div style="display: flex; gap: 1rem; justify-content: center;">
+                        <a href="/shop" class="cta-btn btn-primary"
+                            style="padding: 1rem 3rem; font-size: 1.2rem; border-radius: 50px;">Исследовать</a>
+                        <a href="/about" class="btn-secondary"
+                            style="padding: 1rem 2rem; font-size: 1.2rem; border-radius: 50px; background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(5px);">Узнать
+                            больше</a>
+                    </div>
+                </div>
+            </section>
+
+            <section class="features">
+                <div class="feature-card animate-slide-up" style="animation-delay: 0.2s;">
+                    <div class="feature-icon">🛡️</div>
+                    <h3>Абсолютная Защита</h3>
+                    <p>Ваши данные под защитой квантового шифрования. Мы не просто храним секреты, мы их оберегаем.</p>
+                </div>
+                <div class="feature-card animate-slide-up" style="animation-delay: 0.4s;">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Молниеносная Скорость</h3>
+                    <p>Оптимизированный движок обеспечивает мгновенную загрузку страниц и обработку заказов за
+                        миллисекунды.</p>
+                </div>
+                <div class="feature-card animate-slide-up" style="animation-delay: 0.6s;">
+                    <div class="feature-icon">💎</div>
+                    <h3>Премиум Эстетика</h3>
+                    <p>Наслаждайтесь каждым пикселем. Наш интерфейс создан, чтобы вдохновлять и радовать глаз.</p>
+                </div>
+            </section>
+
+            <section class="reviews-section animate-slide-up" style="animation-delay: 0.8s;">
+                <h2 style="text-align: center; margin-bottom: 3rem; font-size: 2.5rem; font-weight: 800;">Голос
+                    Сообщества</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                    <div class="review-card"
+                        style="background: white; padding: 2rem; border-radius: 20px; box-shadow: var(--shadow-sm); border: 1px solid var(--border-color);">
+                        <div class="review-header"
+                            style="display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem;">
+                            <div
+                                style="width: 50px; height: 50px; background: #e2e8f0; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; overflow: hidden;">
+                                <img src="https://loremflickr.com/50/50/face,man" alt="User">
+                            </div>
+                            <div>
+                                <div style="font-weight: 700; color: #0f172a;">Давид Г.</div>
+                                <div style="font-size: 0.85rem; color: #3b82f6;">Tech Enthusiast</div>
+                            </div>
+                        </div>
+                        <p style="font-style: italic; color: #475569;">"Это не просто магазин, это произведение
+                            искусства. User Experience на высоте."</p>
+                    </div>
+                    <!-- More reviews can be added similarly -->
+                    <div class="review-card"
+                        style="background: white; padding: 2rem; border-radius: 20px; box-shadow: var(--shadow-sm); border: 1px solid var(--border-color);">
+                        <div class="review-header"
+                            style="display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem;">
+                            <div
+                                style="width: 50px; height: 50px; background: #e2e8f0; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; overflow: hidden;">
+                                <img src="https://loremflickr.com/50/50/face,woman" alt="User">
+                            </div>
+                            <div>
+                                <div style="font-weight: 700; color: #0f172a;">Анна М.</div>
+                                <div style="font-size: 0.85rem; color: #3b82f6;">UI Designer</div>
+                            </div>
+                        </div>
+                        <p style="font-style: italic; color: #475569;">"Визуальный стиль Nikita Market задает новую
+                            планку для всей индустрии. Браво!"</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <%- include('partials/footer') %>
+</body>
+
+</html>

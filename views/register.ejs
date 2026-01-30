@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация - ShopMarket</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .auth-container {
+            max-width: 400px;
+            margin: 50px auto;
+            background: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .auth-btn {
+            width: 100%;
+            padding: 0.8rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1.1rem;
+            cursor: pointer;
+        }
+
+        .auth-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <%- include('partials/header') %>
+
+        <main class="container main-content">
+            <div class="auth-container">
+                <h2 style="text-align: center; margin-bottom: 2rem;">Регистрация</h2>
+
+                <form action="/register" method="POST">
+                    <div class="form-group">
+                        <label for="username">Придумайте логин</label>
+                        <input type="text" id="username" name="username" required>
+                    </div>
+                    <!-- 
+                     УЯЗВИМОСТЬ: В реальном проекте здесь были бы проверки на сложность пароля
+                     и подтверждение пароля. В демо-версии мы упрощаем.
+                -->
+                    <div class="form-group">
+                        <label for="password">Придумайте пароль</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    <button type="submit" class="auth-btn">Создать аккаунт</button>
+                </form>
+                <p style="text-align: center; margin-top: 1rem;">
+                    Уже есть аккаунт? <a href="/login">Войти</a>
+                </p>
+            </div>
+        </main>
+
+        <%- include('partials/footer') %>
+</body>
+
+</html>

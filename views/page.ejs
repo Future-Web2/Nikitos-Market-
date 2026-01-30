@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= title %> - ShopMarket
+    </title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <%- include('partials/header') %>
+
+        <main class="container main-content">
+            <h1>
+                <%= title %>
+            </h1>
+            <div style="background: white; padding: 2rem; border-radius: 8px; border: 1px solid #eee;">
+                <p>
+                    <%= content %>
+                </p>
+            </div>
+        </main>
+
+        <%- include('partials/footer') %>
+</body>
+
+</html>

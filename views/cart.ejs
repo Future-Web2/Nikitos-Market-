@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Корзина - ShopMarket</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .cart-container {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .cart-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2rem;
+        }
+
+        .cart-table th,
+        .cart-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-table th {
+            font-weight: 600;
+            color: #555;
+        }
+
+        .cart-item-image {
+            width: 80px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .cart-total {
+            text-align: right;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 2rem;
+        }
+
+        .checkout-btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background-color: var(--price-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 1.1rem;
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 4rem 0;
+            color: #777;
+        }
+    </style>
+</head>
+
+<body>
+    <%- include('partials/header') %>
+
+        <main class="container main-content">
+            <h1>Ваша Корзина</h1>
+
+            <% if (cart && cart.length> 0) { %>
+                <div class="cart-container">
+                    <table class="cart-table">
+                        <thead>
+                            <tr>
+                                <th>Товар</th>
+                                <th>Цена</th>
+                                <th>Кол-во</th>
+                                <th>Итого</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% let total=0; %>
+                                <% cart.forEach(function(item) { %>
+                                    <% const itemTotal=item.price * item.quantity; %>
+                                        <% total +=itemTotal; %>
+                                            <tr>
+                                                <td style="display: flex; align-items: center; gap: 1rem;">
+                                                    <img src="<%= item.image %>" alt="<%= item.name %>"
+                                                        class="cart-item-image">
+                                                    <%= item.name %>
+                                                </td>
+                                                <td>
+                                                    <%= item.price.toLocaleString('ru-RU') %> руб.
+                                                </td>
+                                                <td>
+                                                    <%= item.quantity %>
+                                                </td>
+                                                <td>
+                                                    <%= itemTotal.toLocaleString('ru-RU') %> руб.
+                                                </td>
+                                            </tr>
+                                            <% }); %>
+                        </tbody>
+                    </table>
+
+                    <div class="cart-total">
+                        Общая сумма: <%= total.toLocaleString('ru-RU') %> руб.
+                    </div>
+
+                    <div style="text-align: right;">
+                        <a href="#" class="checkout-btn"
+                            onclick="alert('Спасибо за покупку! Это демо-сайт, оплата не требуется.'); return false;">Оформить
+                            заказ</a>
+                    </div>
+                </div>
+                <% } else { %>
+                    <div class="empty-cart">
+                        <h2>Ваша корзина пуста</h2>
+                        <p>Перейдите в каталог, чтобы добавить товары.</p>
+                        <a href="/" class="btn-primary"
+                            style="text-decoration: none; margin-top: 1rem; display: inline-block;">В каталог</a>
+                    </div>
+                    <% } %>
+        </main>
+
+        <%- include('partials/footer') %>
+</body>
+
+</html>
